@@ -3,6 +3,8 @@ var app = express();
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
+var braintree = require('braintree');
+var nodemailer = require('nodemailer');
 const path = require('path');
 
 const isDeveloping = process.env.NODE_ENV !== 'production';
@@ -12,10 +14,7 @@ const webpackMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const config = require('./webpack.config.js');
 
-var braintree = require('braintree');
-require('./routes/braintree')(app, braintree);
-
-module.exports = app;
+//module.exports = app;
 
 app.use(morgan('dev'));                                         // log every request to the console
 app.use(bodyParser.urlencoded({'extended':'true'}));            // parse application/x-www-form-urlencoded
@@ -23,6 +22,8 @@ app.use(bodyParser.json());                                     // parse applica
 app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
 app.use(methodOverride());
 
+require('./routes/braintree')(app, braintree);
+require('./routes/nodemailer')(app, nodemailer);
 
 if (isDeveloping) {
     const compiler = webpack(config);

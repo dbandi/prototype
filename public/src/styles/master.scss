@@ -1,3 +1,173 @@
 body{
-    background-color: red;
+    background-color: #fdfdfd;
+    font-family: 'Raleway', sans-serif;
+    color: #5f5f5f;
+    margin: 0 auto;
+}
+a{
+    text-decoration: none;
+    border-radius: 3px;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+.section-page{
+    height: 100vh;
+
+    > div{
+      max-width: 900px;
+      margin: 25px auto;
+    }
+
+    &.home{
+        background-image: url('http://iamdeepakreddy.com/imgs/home_bg.png');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+
+        .intro-section{
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          justify-content: flex-end;
+          height: 80%;
+          margin-bottom: 100px;
+          max-width: 1100px;
+          margin-top: 0px;
+
+            h1{
+                color: #fff;
+                font-size: 36px;
+                margin: 5px 0px;
+            }
+            h4{
+                color: #fff;
+                font-size: 20px;
+                margin: 10px 0px 20px;
+                font-weight: 400;
+            }
+        }
+    }
+}
+
+.clr:after, .page:after {
+  content: ".";
+  visibility: hidden;
+  display: block;
+  height: 0;
+  clear: both;
+}
+
+.clr + *, .page{
+  clear: both;
+}
+
+.payment-section{
+    .form-group{
+        clear: both;
+        margin-bottom: 30px;
+        h4{
+            font-weight: 400;
+            font-size: 18px;
+            margin: 0px 0px 10px 0px;
+        }
+        .form-control{
+          margin-bottom: 3px;
+          input[type="text"]{
+              max-height: 30px;
+              border: 1px solid #7b7878;
+              outline: none;
+              display: block;
+              width: 480px;
+              border-radius: 2px;
+              padding: 10px 15px;
+              font-size: 14px;
+          }
+        }
+        &.personel-form{
+            label{
+                font-size: 10px;
+                padding-bottom: 4px;
+                text-transform: uppercase;
+                font-weight: 600;
+                color: grey;
+                letter-spacing: 1px;
+            }
+        }
+        &.card-information{
+            clear: both;
+            label{
+                font-size: 10px;
+                padding-bottom: 4px;
+                text-transform: uppercase;
+                font-weight: 600;
+                color: grey;
+                letter-spacing: 1px;
+            }
+            .form-control{
+                float: left;
+                margin: 0px 10px 0 0;
+                &:nth-child(1){
+                  clear: both;
+                }
+                &:nth-child(2){
+                  clear: both;
+                }
+                &:nth-child(3){
+                  clear: both;
+                  input{
+                      width: 200px;
+                  }
+                }
+                &:nth-child(4){
+                  input{
+                      width: 120px;
+                  }
+                }
+                &:nth-child(5){
+                  input{
+                      width: 75px;
+                  }
+                }
+            }
+        }
+    }
+}
+
+.toggleswitch{
+    display: flex;
+}
+
+.toggleswitch label {
+    display: inline-block;
+    border: 2px solid #000;
+    padding: 20px 10px;
+    border-radius: 5px;
+    text-align: center;
+    width: 15%;
+    margin-right: 20px;
+    font-size: 16px;
+}
+
+.toggleswitch input:checked, .toggleswitch input:not(:checked) {
+    display: none;
+}
+
+.toggleswitch input:checked + label {
+    border-color: #4669eb;
+    color: #4669eb;
+}
+
+.btn{
+    font-size: 14px;
+    text-transform: uppercase;
+    background-color: #4669eb;
+    color: #fff;
+    padding: 8px 25px;
+    border: 1px solid #4669eb;
+    outline: none;
+
+    &:hover{
+      background-color: transparent;
+      color: #4669eb;
+    }
 }

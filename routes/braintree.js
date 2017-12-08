@@ -13,17 +13,55 @@ module.exports = function (app, braintree) {
     });
   });
 
-  app.get("/checkout", function (req, res) {
-    //var nonceFromTheClient = req.body.payment_method_nonce;
-    gateway.transaction.sale({
-      amount: "10.00",
-      paymentMethodNonce: 'fake-valid-nonce',
-      options: {
-        submitForSettlement: true
-      }
+  app.post("/checkout", function (req, res, next) {
+    console.log(req.body);
+    gateway.customer.create({
+        firstName: req.body.payment.senderFirstName,
+        lastName: req.body.payment.senderLastName,
+        email: req.body.payment.senderEmail,
+        phone: req.body.payment.senderPhone
     }, function (err, result) {
-        console.log(result);
-        res.send(200);
+
+        let creditCardParams = {
+            customerId: result.customer.id,
+            number: req.body.payment.cardNumber,
+            expirationDate: req.body.payment.expirationDate,
+            cvv: req.body.payment.cvv
+        };
+
+        gateway.creditCard.create(creditCardParams, function (err, response) {
+            gateway.paymentMethodNonce.create(response.creditCard.token, function(nounceErr, nounceResponse) {
+                gateway.transaction.sale({
+                  amount: "10.00",
+                  paymentMethodNonce: nounceResponse.paymentMethodNonce.nonce,
+                  options: {
+                    submitForSettlement: true
+                  }
+                }, function (transactionErr, transactionResult) {
+                    res.send(transactionResult);
+                });
+            });
+        });
     });
+
+
+
+    /*gateway.paymentMethodNonce.create("A_PAYMENT_METHOD_TOKEN", function(err, response) {
+      console.log(response);
+      var nonce = response.paymentMethodNonce.nonce;
+      console.log(nonce);
+      gateway.transaction.sale({
+        amount: "10.00",
+        paymentMethodNonce: nonce,
+        options: {
+          submitForSettlement: true
+        }
+      }, function (err, result) {
+          console.log(result);
+          res.send(200);
+      });
+    });*/
+
+
   });
 }

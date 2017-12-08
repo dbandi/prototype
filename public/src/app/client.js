@@ -8,12 +8,14 @@ import NoMatch from "./components/NoMatch";
 
 const app = document.getElementById('app');
 
+import styles from '../styles/master.scss';
+
 ReactDOM.render(
   <Router>
      <div>
        <Switch>
-         <Route exact path="/account" render={() => (<div>Account</div>)} />
-         <Route exact path="/" render={() => (<div>Home</div>)} />
+         <Route exact path="/"component={Home} />
+         <Route exact path="/account" component={Account} />
          <Route component={NoMatch}/>
        </Switch>
     </div>

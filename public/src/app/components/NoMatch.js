@@ -1,12 +1,12 @@
 import React from "react";
 import { connect } from "react-redux"
 
-export default class Layout extends React.Component {
+export default class NoMatch extends React.Component {
 
   render() {
     return (
           <div className="main-container">
-              Sample
+              NoMatch
           </div>
     );
   }

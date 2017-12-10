@@ -32,7 +32,7 @@ module.exports = function (app, braintree) {
         gateway.creditCard.create(creditCardParams, function (err, response) {
             gateway.paymentMethodNonce.create(response.creditCard.token, function(nounceErr, nounceResponse) {
                 gateway.transaction.sale({
-                  amount: "10.00",
+                  amount: req.body.payment.amount,
                   paymentMethodNonce: nounceResponse.paymentMethodNonce.nonce,
                   options: {
                     submitForSettlement: true

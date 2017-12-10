@@ -1,11 +1,23 @@
 var express  = require('express');
 var app = express();
+var session  = require('express-session');
+var flash = require('connect-flash');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var braintree = require('braintree');
 var nodemailer = require('nodemailer');
+var passport = require('passport');
+var GoogleStrategy = require('passport-google-oauth20').Strategy;
+const uuidv1 = require('uuid/v1');
 const path = require('path');
+
+var $credentials = {
+    "accessKeyId": "AKIAJCS6PAKOBGBF2F4Q",
+    "secretAccessKey": "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",
+    "region": "us-east-2"
+}
+var dynamodb = require('@awspilot/dynamodb')($credentials);
 
 const isDeveloping = process.env.NODE_ENV !== 'production';
 const port = isDeveloping ? 3000 : process.env.PORT;
@@ -22,8 +34,19 @@ app.use(bodyParser.json());                                     // parse applica
 app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
 app.use(methodOverride());
 
+app.use(session({
+	secret: 'bitcoin',
+	resave: true,
+	saveUninitialized: true
+ } ));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+
 require('./routes/braintree')(app, braintree);
 require('./routes/nodemailer')(app, nodemailer);
+require('./routes/transaction')(app, dynamodb, uuidv1);
+require('./routes/passport')(app, passport, GoogleStrategy, dynamodb, uuidv1);
 
 if (isDeveloping) {
     const compiler = webpack(config);
